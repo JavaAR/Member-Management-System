@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.DeepBlue.dao.SubscribeMapper">
+    <resultMap id="BaseResultMap" type="cn.DeepBlue.pojo.Subscribe">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="Subscribeid" property="subscribeid" jdbcType="INTEGER"/>
+        <result column="CourseId" property="courseid" jdbcType="INTEGER"/>
+        <result column="UserId" property="userid" jdbcType="INTEGER"/>
+        <result column="UCoachId" property="ucoachid" jdbcType="INTEGER"/>
+        <result column="SubscribeidDate" property="subscribeiddate" jdbcType="DATE"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="CREATED_TIME" property="createdTime" jdbcType="TIMESTAMP"/>
+        <result column="UPDATED_BY" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="UPDATED_TIME" property="updatedTime" jdbcType="TIMESTAMP"/>
+        <result column="Status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+    <!--getSbuscribeByMap-->
+    <select id="getSbuscribeByMap" parameterType="java.util.Map" resultType="cn.DeepBlue.pojo.Subscribe">
+        select Subscribeid as subscribeid,
+        CourseId as courseid,
+        UserId as userid,
+        UCoachId as ucoachid,
+        SubscribeidDate as subscribeiddate,
+        CREATED_BY as createdBy,
+        CREATED_TIME as createdTime,
+        UPDATED_BY as updatedBy,
+        UPDATED_TIME as updatedTime,
+        Status as  status
+        from subscribe
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="subscribeid != null and subscribeid!=''">
+                and Subscribeid=#{subscribeid}
+            </if>
+            <if test="courseid != null and courseid!=''">
+                and  CourseId =#{courseid}
+            </if>
+            <if test="userid != null and userid!=''">
+                and  UserId =#{userid}
+            </if>
+            <if test="ucoachid != null and ucoachid!=''">
+                and  UCoachId =#{ucoachid}
+            </if>
+            <if test="subscribeiddate!=null and subscribeiddate!=null" >
+                SubscribeidDate =#{subscribeiddate}
+            </if>
+            <if test="createdBy != null and createdBy!=''">
+                and CREATED_BY=#{createdBy}
+            </if>
+            <if test="createdTime != null and createdTime!=''">
+                and CREATED_TIME=#{createdTime}
+            </if>
+            <if test="updatedBy != null and updatedBy!=''">
+                and UPDATED_BY=#{updatedBy}
+            </if>
+            <if test="updatedTime != null and updatedTime!=''">
+                and UPDATED_TIME=#{updatedTime}
+            </if>
+            <if test="status != null and status!=''">
+                and Status=#{status}
+            </if>
+        </trim>
+    </select>
+    <!--insertSubscribe-->
+    <insert id="insertSubscribe" parameterType="java.util.Map">
+         insert into subscribe(
+                        Subscribeid,
+                        CourseId,
+                        UCoachId,
+                        UserId,
+                        SubscribeidDate,
+                        CREATED_BY ,
+                        CREATED_TIME ,
+                        UPDATED_BY ,
+                        UPDATED_TIME,
+                        Status)
+        values(
+                        #{subscribeid},
+                        #{courseid},
+                        #{ucoachid},
+                        #{userid},
+                        #{subscribeiddate},
+                        #{createdBy},
+                        #{createdTime},
+                        #{updatedBy},
+                        #{updatedTime},
+                        #{status})
+    </insert>
+    <!--getSubscribeForUser-->
+    <select id="getSubscribeForUser" parameterType="java.util.Map" resultType="cn.DeepBlue.pojo.Subscribe">
+        select
+        s.Subscribeid as subscribeid,
+        s.CourseId as courseid,
+        s.UserId as userid,
+        s.UCoachId as ucoachid,
+        s.SubscribeidDate as subscribeiddate,
+        s.CREATED_BY as createdBy,
+        s.CREATED_TIME as createdTime,
+        s.UPDATED_BY as updatedBy,
+        s.UPDATED_TIME as updatedTime,
+        s.Status as  status,
+        co.CourseName as coursename,
+        u.UserName as coachname,
+        co.CourseStartTime as coursestarttime,
+        co.CourseEndTime as courseendtime
+        from subscribe as s,course as co,`user` as u
+        <trim prefix="where" prefixOverrides="and | or">
+            s.CourseId = co.CId
+            and
+            s.UCoachId = u.UId
+            <if test="subscribeid != null and subscribeid!=''">
+                and s.Subscribeid=#{subscribeid}
+            </if>
+            <if test="courseid != null and courseid!=''">
+                and  s.CourseId =#{courseid}
+            </if>
+            <if test="userid != null and userid!=''">
+                and  s.UserId =#{userid}
+            </if>
+            <if test="ucoachid != null and ucoachid!=''">
+                and  s.UCoachId =#{ucoachid}
+            </if>
+            <if test="subscribeiddate!=null and subscribeiddate!=null" >
+               and  s.SubscribeidDate =#{subscribeiddate}
+            </if>
+            <if test="createdBy != null and createdBy!=''">
+                and s.CREATED_BY=#{createdBy}
+            </if>
+            <if test="createdTime != null and createdTime!=''">
+                and s.CREATED_TIME=#{createdTime}
+            </if>
+            <if test="updatedBy != null and updatedBy!=''">
+                and s.UPDATED_BY=#{updatedBy}
+            </if>
+            <if test="updatedTime != null and updatedTime!=''">
+                and s.UPDATED_TIME=#{updatedTime}
+            </if>
+            <if test="status != null and status!=''">
+                and s.Status=#{status}
+            </if>
+            <if test="coursestarttime != null and coursestarttime != ''">
+            and co.CourseStartTime <![CDATA[>=]]> #{coursestarttime}
+            </if>
+            <if test="courseendtime != null and courseendtime != ''">
+            and co.CourseEndTime <![CDATA[<=]]>#{courseendtime}
+            </if>
+            ORDER BY co.CourseStartTime
+        </trim>
+    </select>
+    <!--getSubscribeForUserforMap-->
+    <select id="getSubscribeForUserforMap" parameterType="java.util.Map" resultType="cn.DeepBlue.pojo.Subscribe">
+        select
+        s.Subscribeid as subscribeid,
+        s.CourseId as courseid,
+        s.UserId as userid,
+        s.UCoachId as ucoachid,
+        s.SubscribeidDate as subscribeiddate,
+        s.CREATED_BY as createdBy,
+        s.CREATED_TIME as createdTime,
+        s.UPDATED_BY as updatedBy,
+        s.UPDATED_TIME as updatedTime,
+        s.Status as  status,
+        co.CourseName as coursename,
+        u.UserName as studentname,
+        u.UserPhone as studentPhone,
+        co.CourseStartTime as coursestarttime,
+        co.CourseEndTime as courseendtime
+        from subscribe as s,course as co,`user` as u
+        <trim prefix="where" prefixOverrides="and | or">
+            s.CourseId = co.CId
+            and
+            s.UserId = u.UId
+            <if test="subscribeid != null and subscribeid!=''">
+                and s.Subscribeid=#{subscribeid}
+            </if>
+            <if test="courseid != null and courseid!=''">
+                and  s.CourseId =#{courseid}
+            </if>
+            <if test="userid != null and userid!=''">
+                and  s.UserId =#{userid}
+            </if>
+            <if test="ucoachid != null and ucoachid!=''">
+                and  s.UCoachId =#{ucoachid}
+            </if>
+            <if test="subscribeiddate!=null and subscribeiddate!=null" >
+                and  s.SubscribeidDate =#{subscribeiddate}
+            </if>
+            <if test="createdBy != null and createdBy!=''">
+                and s.CREATED_BY=#{createdBy}
+            </if>
+            <if test="createdTime != null and createdTime!=''">
+                and s.CREATED_TIME=#{createdTime}
+            </if>
+            <if test="updatedBy != null and updatedBy!=''">
+                and s.UPDATED_BY=#{updatedBy}
+            </if>
+            <if test="updatedTime != null and updatedTime!=''">
+                and s.UPDATED_TIME=#{updatedTime}
+            </if>
+            <if test="status != null and status!=''">
+                and s.Status=#{status}
+            </if>
+            <if test="coursestarttime != null and startTime != ''">
+                and co.CourseStartTime <![CDATA[>=]]> #{coursestarttime}
+            </if>
+            <if test="courseendtime != null and courseendtime != ''">
+                and co.CourseEndTime <![CDATA[<=]]>#{courseendtime}
+            </if>
+            ORDER BY co.CourseStartTime
+        </trim>
+    </select>
+<!--updateSubscribeInfo-->
+    <update id="updateSubscribeInfo" parameterType="java.util.Map">
+        update subscribe
+        <trim prefix="set" suffixOverrides="," suffix="where Subscribeid=#{subscribeid}">
+            <!--<if test="uid != null and uid!=''">
+              and uID=#{uid}
+            </if>-->
+            <if test="courseid != null and courseid!=''">
+                CourseId=#{courseid},
+            </if>
+            <if test="userid != null and userid!=''">
+                UserId=#{userid},
+            </if>
+            <if test="ucoachid != null and ucoachid!=''">
+                UcoachId=#{ucoachid},
+            </if>
+            <if test="subscribeiddate != null and subscribeiddate!=''">
+                SubscribeidDate=#{subscribeiddate},
+            </if>
+            <if test="createdBy != null and createdBy!=''">
+                CREATED_BY=#{createdBy},
+            </if>
+            <if test="createdTime != null and createdTime!=''">
+                CREATED_TIME=#{createdTime},
+            </if>
+            <if test="updatedBy != null and updatedBy!=''">
+                UPDATED_BY=#{updatedBy},
+            </if>
+            <if test="updatedTime != null and updatedTime!=''">
+                UPDATED_TIME=#{updatedTime},
+            </if>
+            <if test="status != null and status!=''">
+                Status=#{status},
+            </if>
+        </trim>
+    </update>
+    <!--deleSubscribeInfo-->
+    <delete id="deleSubscribeInfo" parameterType="java.util.Map">
+        delete from subscribe
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="courseid != null and courseid!=''">
+              and  CourseId=#{courseid}
+            </if>
+            <if test="userid != null and userid!=''">
+              and  UserId=#{userid}
+            </if>
+        </trim>
+    </delete>
+<!--getAllSubscribe-->
+    <select id="getAllSubscribe" parameterType="java.util.Map" resultType="cn.DeepBlue.pojo.Subscribe">
+      SELECT
+  u.UserName AS studentname,
+  u2.UserName AS coachname,
+  c.CourseName as coursename,
+  c.CourseStartTime as coursestarttime,
+  c.CourseEndTime as courseendtime,
+  c.CourseClassify as courseclassify,
+  c.AddressId as addressid,
+  s.Subscribeid as subscribeid,
+  s.CourseId as courseid,
+  s.UserId as userid,
+  s.UCoachId as ucoachid,
+  s.SubscribeidDate as subscribeiddate,
+  s.CREATED_BY as createdBy,
+  s.CREATED_TIME as createdTime,
+  s.UPDATED_BY as updatedBy,
+  s.UPDATED_TIME as updatedTime,
+  s.Status as  status
+  FROM subscribe AS s
+	INNER JOIN course as c
+	on c.CId = s.CourseId
+    inner join `user` AS u
+    on s.UserId =  u.uID
+    inner join `user` AS  u2
+    on s.UCoachId = u2.uID
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="subscribeid != null and subscribeid!=''">
+                and s.Subscribeid=#{subscribeid}
+            </if>
+            <if test="courseid != null and courseid!=''">
+                and  s.CourseId =#{courseid}
+            </if>
+            <if test="userid != null and userid!=''">
+                and  s.UserId =#{userid}
+            </if>
+            <if test="ucoachid != null and ucoachid!=''">
+                and  s.UCoachId =#{ucoachid}
+            </if>
+            <if test="subscribeiddate!=null and subscribeiddate!=null" >
+                and  s.SubscribeidDate =#{subscribeiddate}
+            </if>
+            <if test="createdBy != null and createdBy!=''">
+                and s.CREATED_BY=#{createdBy}
+            </if>
+            <if test="createdTime != null and createdTime!=''">
+                and s.CREATED_TIME=#{createdTime}
+            </if>
+            <if test="updatedBy != null and updatedBy!=''">
+                and s.UPDATED_BY=#{updatedBy}
+            </if>
+            <if test="updatedTime != null and updatedTime!=''">
+                and s.UPDATED_TIME=#{updatedTime}
+            </if>
+            <if test="status != null and status!=''">
+                and s.Status=#{status}
+            </if>
+        </trim>
+        ORDER BY c.CourseStartTime
+    </select>
+
+    <!--getCountByMap-->
+    <select id="getCountByMap" parameterType="java.util.Map" resultType="int">
+        select COUNT(1) from subscribe
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="subscribeid != null and subscribeid!=''">
+                and Subscribeid=#{subscribeid}
+            </if>
+            <if test="courseid != null and courseid!=''">
+                and  CourseId =#{courseid}
+            </if>
+            <if test="userid != null and userid!=''">
+                and  UserId =#{userid}
+            </if>
+            <if test="ucoachid != null and ucoachid!=''">
+                and  UCoachId =#{ucoachid}
+            </if>
+            <if test="subscribeiddate!=null and subscribeiddate!=null" >
+                SubscribeidDate =#{subscribeiddate}
+            </if>
+            <if test="createdBy != null and createdBy!=''">
+                and CREATED_BY=#{createdBy}
+            </if>
+            <if test="createdTime != null and createdTime!=''">
+                and CREATED_TIME=#{createdTime}
+            </if>
+            <if test="updatedBy != null and updatedBy!=''">
+                and UPDATED_BY=#{updatedBy}
+            </if>
+            <if test="updatedTime != null and updatedTime!=''">
+                and UPDATED_TIME=#{updatedTime}
+            </if>
+            <if test="status != null and status!=''">
+                and Status=#{status}
+            </if>
+        </trim>
+    </select>
+
+</mapper>

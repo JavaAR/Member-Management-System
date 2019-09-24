@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.DeepBlue.dao.SubscribestatusMapper" >
+  <resultMap id="BaseResultMap" type="cn.DeepBlue.pojo.Subscribestatus" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="StatusId" property="statusid" jdbcType="INTEGER" />
+    <result column="StatusName" property="statusname" jdbcType="VARCHAR" />
+    <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR" />
+    <result column="CREATED_TIME" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_BY" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="UPDATED_TIME" property="updatedTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <!--subscribestatusMapper-->
+  <select id="subscribestatusMapper" resultType="cn.DeepBlue.pojo.Subscribestatus">
+    select StatusId as statusid,
+            StatusName as statusname
+     from  Subscribestatus
+  </select>
+</mapper>

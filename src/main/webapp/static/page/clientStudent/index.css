@@ -1,0 +1,43 @@
+/*
+*{padding: 0;margin-bottom:0;border: 0;!important;}
+.layui-tab-title li{font-family: Bahnschrift;font-size: 20px;margin-left: 20%;color: #d2d2d2}
+.layui-tab-brief > .layui-tab-title .layui-this {color: white;}
+.layui-tab-content {padding: 0px!important;filter:drop-shadow(2px 4px 6px black)}
+.layui-tab-brief > .layui-tab-more li.layui-this:after, .layui-tab-brief > .layui-tab-title .layui-this:after {border-radius: 0!important}
+.layui-laydate, .layui-laydate-hint {box-shadow: 0 2px 4px;color: #666;width: 100%;height: 100%;background-color:transparent!important;}
+#laydateArae .layui-laydate-main{width:auto;}
+#laydateArae .layui-laydate-content td,#laydateArae .layui-laydate-content th{width:87px;height: 50px;}
+.layui-laydate-content th{  color: white;font-size: 20px}
+.layui-laydate-content th:nth-last-child(2){color:#ffb632 }
+.layui-laydate-content th:nth-last-child(1){color: #ffb632}
+.layui-laydate-content .laydate-day-next, .layui-laydate-content .laydate-day-prev {color: #666!important;}
+.layui-laydate-content td {color: white!important;}
+.laydate-set-ym span{color: white;font-size: 20px}
+.layui-tab-brief > .layui-tab-more li.layui-this:after, .layui-tab-brief > .layui-tab-title .layui-this:after {border: none;border-radius: 0;border-bottom: 2px solid #ffb632;}
+.layui-show ul li{display: inline;list-style-type: none;padding: 5% 2%;color: white;font-size: 12px;font-family: Arial}
+.layui-row.grid-demo.grid-demo-bg1 .layui-show ul li{color: black;margin-top: 2%}
+.layui-table td, .layui-table th{font-size: 14px;background-color: #f2ecdd;color: black;!important;font-family: Arial;text-align:center;}
+.search_input{padding:10px 10px;!important;}
+.search_input{border-radius: 2em}
+*/
+.layui-tab-title .layui-this {color: white;}
+.layui-tab-title .layui-this:after{border-color: transparent;border-bottom:2px solid #ffb632;color: white}
+.layui-tab-card{text-align: center;}
+.layui-tab-card li{font-family: Bahnschrift;font-size: 20px;color: #d2d2d2}
+.layui-tab-title, .layui-tab-card{border: none}
+/*日历样式*/
+.laydate-theme-myDateCss .layui-laydate-main i{color: white}
+#laydateArae .layui-laydate-content table thead tr{border-bottom: 1px solid rgba(104,147,184,0.07);}
+#laydateArae .laydate-theme-myDateCss .layui-laydate-content{background-color:rgba(0,0,0,0.6);}
+#laydateArae .laydate-theme-myDateCss{width:100%;background-color:transparent;}
+.laydate-theme-myDateCss .layui-laydate-content th{color: white;!important;}
+.laydate-theme-myDateCss .layui-laydate-header{border: none}
+#laydateArae .layui-laydate-main{width:100%;}
+.laydate-theme-myDateCss .layui-laydate-content td{color: white;!important;width:87px;height: 50px}
+.laydate-theme-myDateCss .layui-laydate-content th:nth-last-child(1){color:#ffb632 }
+.laydate-theme-myDateCss .layui-laydate-content th:nth-child(1){color:#ffb632 }
+.laydate-theme-myDateCss .layui-laydate-content .laydate-day-next, .laydate-theme-myDateCss .layui-laydate-content  .laydate-day-prev{color: #8d8d8d}
+.laydate-theme-myDateCss .layui-laydate-header{font-size: 20px;color: white}
+#laydateArae+ .layui-show ul li{display: inline;list-style-type: none;padding: 5% 2%;color: white;font-size: 12px;font-family: Arial;text-align: center}
+.layui-row.grid-demo.grid-demo-bg1 .layui-show ul li{color: black;margin-top: 2%}
+.grid-demo+.layui-show ul li{color: black;display: inline;margin-left: 2%;font-size: 12px;font-family: Arial;}

@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.DeepBlue.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="cn.DeepBlue.pojo.User">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="uID" property="uid" jdbcType="INTEGER"/>
+        <result column="UserName" property="username" jdbcType="VARCHAR"/>
+        <result column="UserCode" property="usercode" jdbcType="VARCHAR"/>
+        <result column="UserPassword" property="userpassword" jdbcType="VARCHAR"/>
+        <result column="UserRole" property="userrole" jdbcType="INTEGER"/>
+        <result column="UserPhone" property="userphone" jdbcType="VARCHAR"/>
+        <result column="Forbidden" property="forbidden" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="CREATED_TIME" property="createdTime" jdbcType="TIMESTAMP"/>
+        <result column="UPDATED_BY" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="UPDATED_TIME" property="updatedTime" jdbcType="TIMESTAMP"/>
+        <result column="Age" property="age" jdbcType="VARCHAR"/>
+        <result column="Gender" property="gender" jdbcType="INTEGER"/>
+        <result column="Birthday" property="birthday" jdbcType="DATE"/>
+        <result column="UserBackground" property="userbackground" jdbcType="LONGVARCHAR"/>
+        <result column="UserLever" property="userlever" jdbcType="INTEGER"/>
+    </resultMap>
+    <!--getUserByMap-->
+    <select id="getUserByMap" parameterType="java.util.Map" resultType="cn.DeepBlue.pojo.User">
+        select
+        u.uID as uid,
+        u.UserName as username,
+        u.UserCode as usercode,
+        u.UserPassword as userpassword,
+        u.UserRole as userrole,
+        u.UserPhone as userphone,
+        u.Forbidden as forbidden,
+        u.CREATED_BY as createdBy,
+        u.CREATED_TIME as createdTime,
+        u.UPDATED_BY as updatedBy,
+        u.UPDATED_TIME as updatedTime,
+        u.Age as age,
+        u.Gender as gender,
+        u.Birthday as birthday,
+        u.UserBackground as userbackground,
+        u.UserLever as  userlever
+        from `user`as u
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="uid != null and uid!=''">
+                and uID=#{uid}
+            </if>
+            <if test="username != null and username!=''">
+                and UserName=#{username}
+            </if>
+            <if test="usercode != null and usercode!=''">
+                and UserCode=#{usercode}
+            </if>
+            <if test="userpassword != null and userpassword!=''">
+                and UserPassword=#{userpassword}
+            </if>
+            <if test="userrole != null and userrole!=''">
+                and UserRole=#{userrole}
+            </if>
+            <if test="userphone != null and userphone!=''">
+                and UserPhone=#{userphone}
+            </if>
+            <if test="forbidden != null and forbidden!=''">
+                and Forbidden=#{forbidden}
+            </if>
+            <if test="createdBy != null and createdBy!=''">
+                and CREATED_BY=#{createdBy}
+            </if>
+            <if test="createdTime != null and createdTime!=''">
+                and CREATED_TIME=#{createdTime}
+            </if>
+            <if test="updatedBy != null and updatedBy!=''">
+                and UPDATED_BY=#{updatedBy}
+            </if>
+            <if test="updatedTime != null and updatedTime!=''">
+                and UPDATED_TIME=#{updatedTime}
+            </if>
+            <if test="age != null and age!=''">
+                and Age=#{age}
+            </if>
+            <if test="birthday != null and birthday!=''">
+                and Birthday=#{birthday}
+            </if>
+            <if test="userbackground != null and userbackground!=''">
+                and UserBackground=#{userbackground}
+            </if>
+            <if test="gender != null and gender!=''">
+                and Gender=#{gender}
+            </if>
+        </trim>
+    </select>
+    <!--upDateUserPassword-->
+    <update id="upDateUserByMap" parameterType="java.util.Map">
+        update `user`
+        <trim prefix="set" suffixOverrides="," suffix="where uID=#{uid}">
+            <!--<if test="uid != null and uid!=''">
+              and uID=#{uid}
+            </if>-->
+            <if test="username != null and username!=''">
+                UserName=#{username},
+            </if>
+            <if test="usercode != null and usercode!=''">
+                UserCode=#{usercode},
+            </if>
+            <if test="userpassword != null and userpassword!=''">
+                UserPassword=#{userpassword},
+            </if>
+            <if test="userrole != null and userrole!=''">
+                UserRole=#{userrole},
+            </if>
+            <if test="userphone != null and userphone!=''">
+                UserPhone=#{userphone},
+            </if>
+            <if test="forbidden != null and forbidden!=''">
+                Forbidden=#{forbidden},
+            </if>
+            <if test="createdBy != null and createdBy!=''">
+                CREATED_BY=#{createdBy},
+            </if>
+            <if test="createdTime != null and createdTime!=''">
+                CREATED_TIME=#{createdTime},
+            </if>
+            <if test="updatedBy != null and updatedBy!=''">
+                UPDATED_BY=#{updatedBy},
+            </if>
+            <if test="updatedTime != null and updatedTime!=''">
+                UPDATED_TIME=#{updatedTime},
+            </if>
+            <if test="age != null and age!=''">
+                Age=#{age},
+            </if>
+            <if test="birthday != null and birthday!=''">
+                Birthday=#{birthday},
+            </if>
+            <if test="userbackground != null and userbackground!=''">
+                UserBackground=#{userbackground},
+            </if>
+            <if test="gender != null and gender!=''">
+                Gender=#{gender},
+            </if>
+            <if test="userlever != null and userlever!=''">
+                UserLever=#{userlever}
+            </if>
+        </trim>
+    </update>
+
+    <!--getAllUserInfoByMap-->
+    <select id="getAllUserInfoByMap" parameterType="java.util.Map" resultType="cn.DeepBlue.pojo.User">
+        select
+        uID as uid,
+        UserName as username,
+        UserCode as usercode,
+        UserPassword as userpassword,
+        UserRole as userrole,
+        UserPhone as userphone,
+        Forbidden as forbidden,
+        CREATED_BY as createdBy,
+        CREATED_TIME as createdTime,
+        UPDATED_BY as updatedBy,
+        UPDATED_TIME as updatedTime,
+        Age as age,
+        Gender as gender,
+        Birthday as birthday,
+        UserBackground as userbackground
+        from `user`
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="username != ''  and username != null">
+                UserName LIKE CONCAT('%',#{username},'%')
+            </if>
+            and UserRole =1
+        </trim>
+    </select>
+
+
+    <insert id="insertUser" parameterType="java.util.Map">
+        insert into `user`(
+                        UserName,
+                        UserCode,
+                        UserPassword,
+                        UserRole ,
+                        UserPhone ,
+                        Forbidden ,
+                        CREATED_BY ,
+                        CREATED_TIME ,
+                        UPDATED_BY ,
+                        UPDATED_TIME ,
+                        Age ,
+                        Gender ,
+                        Birthday ,
+                        UserBackground,
+                        UserLever)
+        values(
+                        #{username},
+                         #{usercode},
+                         #{userpassword},
+                        #{userrole},
+                        #{userphone},
+                        #{forbidden},
+                        #{createdBy},
+                         #{createdTime},
+                         #{updatedBy},
+                        #{updatedTime},
+                        #{age},
+                         #{gender},
+                         #{birthday},
+                         #{userbackground},
+                         #{userlever})
+    </insert>
+    <!--delUserById-->
+    <delete id="delUserById" parameterType="java.util.Map">
+        delete from `user`
+        where uID = #{uid}
+    </delete>
+    <!--getUserById-->
+    <select id="getUserById" parameterType="java.util.Map" resultType="cn.DeepBlue.pojo.User">
+        select
+        ul.leverName as leverName,
+        u.uID as uid,
+        u.UserName as username,
+        u.UserCode as usercode,
+        u.UserPassword as userpassword,
+        u.UserRole as userrole,
+        u.UserPhone as userphone,
+        u.Forbidden as forbidden,
+        u.CREATED_BY as createdBy,
+        u.CREATED_TIME as createdTime,
+        u.UPDATED_BY as updatedBy,
+        u.UPDATED_TIME as updatedTime,
+        u.Age as age,
+        u.Gender as gender,
+        u.Birthday as birthday,
+        u.UserBackground as userbackground,
+        u.UserLever as  userlever
+        from `user`as u,UserLever as ul
+        <trim prefix="where" prefixOverrides="and | or">
+               and u.UserLever = ul.leverId
+            <if test="uid != null and uid!=''">
+                and uID=#{uid}
+            </if>
+            <if test="username != null and username!=''">
+                and UserName=#{username}
+            </if>
+            <if test="usercode != null and usercode!=''">
+                and UserCode=#{usercode}
+            </if>
+            <if test="userpassword != null and userpassword!=''">
+                and UserPassword=#{userpassword}
+            </if>
+            <if test="userrole != null and userrole!=''">
+                and UserRole=#{userrole}
+            </if>
+            <if test="userphone != null and userphone!=''">
+                and UserPhone=#{userphone}
+            </if>
+            <if test="forbidden != null and forbidden!=''">
+                and Forbidden=#{forbidden}
+            </if>
+            <if test="createdBy != null and createdBy!=''">
+                and CREATED_BY=#{createdBy}
+            </if>
+            <if test="createdTime != null and createdTime!=''">
+                and CREATED_TIME=#{createdTime}
+            </if>
+            <if test="updatedBy != null and updatedBy!=''">
+                and UPDATED_BY=#{updatedBy}
+            </if>
+            <if test="updatedTime != null and updatedTime!=''">
+                and UPDATED_TIME=#{updatedTime}
+            </if>
+            <if test="age != null and age!=''">
+                and Age=#{age}
+            </if>
+            <if test="birthday != null and birthday!=''">
+                and Birthday=#{birthday}
+            </if>
+            <if test="userbackground != null and userbackground!=''">
+                and UserBackground=#{userbackground}
+            </if>
+            <if test="gender != null and gender!=''">
+                and Gender=#{gender}
+            </if>
+        </trim>
+    </select>
+    <!--getAllUserLever-->
+    <select id="getAllUserLever" resultType="cn.DeepBlue.pojo.Userlever">
+        select  leverId as leverid,
+                leverName as levername
+         from UserLever
+    </select>
+    <!--getCoachByMap-->
+    <select id="getCoachByMap" parameterType="java.util.Map" resultType="cn.DeepBlue.pojo.User">
+        select
+        uID as uid,
+        UserName as username,
+        UserCode as usercode,
+        UserPassword as userpassword,
+        UserRole as userrole,
+        UserPhone as userphone,
+        Forbidden as forbidden,
+        CREATED_BY as createdBy,
+        CREATED_TIME as createdTime,
+        UPDATED_BY as updatedBy,
+        UPDATED_TIME as updatedTime,
+        Age as age,
+        Gender as gender,
+        Birthday as birthday,
+        UserBackground as userbackground
+        from `user`
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="username != ''  and username != null">
+                UserName LIKE CONCAT('%',#{username},'%')
+            </if>
+            and UserRole =2
+        </trim>
+    </select>
+    <!--delCoachInfo-->
+    <delete id="delCoachInfo">
+        delete from `user` where uID = #{uid}
+    </delete>
+    <!--getCountByMap-->
+    <select id="getCountByMap" parameterType="java.util.Map" resultType="int" >
+        select COUNT(1) from `user`
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="uid != null and uid!=''">
+                and uID=#{uid}
+            </if>
+            <if test="username != null and username!=''">
+                and UserName=#{username}
+            </if>
+            <if test="usercode != null and usercode!=''">
+                and UserCode=#{usercode}
+            </if>
+            <if test="userpassword != null and userpassword!=''">
+                and UserPassword=#{userpassword}
+            </if>
+            <if test="userrole != null and userrole!=''">
+                and UserRole=#{userrole}
+            </if>
+            <if test="userphone != null and userphone!=''">
+                and UserPhone=#{userphone}
+            </if>
+            <if test="forbidden != null and forbidden!=''">
+                and Forbidden=#{forbidden}
+            </if>
+            <if test="createdBy != null and createdBy!=''">
+                and CREATED_BY=#{createdBy}
+            </if>
+            <if test="createdTime != null and createdTime!=''">
+                and CREATED_TIME=#{createdTime}
+            </if>
+            <if test="updatedBy != null and updatedBy!=''">
+                and UPDATED_BY=#{updatedBy}
+            </if>
+            <if test="updatedTime != null and updatedTime!=''">
+                and UPDATED_TIME=#{updatedTime}
+            </if>
+            <if test="age != null and age!=''">
+                and Age=#{age}
+            </if>
+            <if test="birthday != null and birthday!=''">
+                and Birthday=#{birthday}
+            </if>
+            <if test="userbackground != null and userbackground!=''">
+                and UserBackground=#{userbackground}
+            </if>
+            <if test="gender != null and gender!=''">
+                and Gender=#{gender}
+            </if>
+        </trim>
+
+
+    </select>
+
+</mapper>

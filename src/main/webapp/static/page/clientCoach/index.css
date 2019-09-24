@@ -1,0 +1,21 @@
+.layui-tab-title .layui-this {color: white;}
+.layui-tab-title .layui-this:after{border-color: transparent;border-bottom:2px solid #ffb632;color: white}
+.layui-tab-card{text-align: center;}
+.layui-tab-card li{font-family: Bahnschrift;font-size: 20px;color: #d2d2d2}
+.layui-tab-title, .layui-tab-card{border: none}
+/*日历样式*/
+.laydate-theme-myDateCss .layui-laydate-main i{color: white}
+#laydateArea .layui-laydate-content table thead tr{border-bottom: 1px solid rgba(104,147,184,0.07);}
+#laydateArea .laydate-theme-myDateCss .layui-laydate-content{background-color:rgba(0,0,0,0.6);}
+#laydateArea .laydate-theme-myDateCss{width:100%;background-color:transparent;}
+.laydate-theme-myDateCss .layui-laydate-content th{color: white;!important;}
+.laydate-theme-myDateCss .layui-laydate-header{border: none}
+#laydateArea .layui-laydate-main{width:100%;}
+.laydate-theme-myDateCss .layui-laydate-content td{color: white;!important;width:87px;height: 50px}
+.laydate-theme-myDateCss .layui-laydate-content th:nth-last-child(1){color:#ffb632 }
+.laydate-theme-myDateCss .layui-laydate-content th:nth-child(1){color:#ffb632 }
+.laydate-theme-myDateCss .layui-laydate-content .laydate-day-next, .laydate-theme-myDateCss .layui-laydate-content  .laydate-day-prev{color: #8d8d8d}
+.laydate-theme-myDateCss .layui-laydate-header{font-size: 20px;color: white}
+#laydateArea+ .layui-show ul li{display: inline;list-style-type: none;padding: 5% 2%;color: white;font-size: 12px;font-family: Arial;text-align: center}
+.layui-row.grid-demo.grid-demo-bg1 .layui-show ul li{color: black;margin-top: 2%}
+.grid-demo+.layui-show ul li{color: black;display: inline;margin-left: 2%;font-size: 12px;font-family: Arial;}

@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.2.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
+	<!-- 扫描service层 -->
+	<context:component-scan base-package="cn.DeepBlue.service" />
+	<!-- 引用外部配置文件 -->
+	<context:property-placeholder
+		location="classpath:database.properties" />
+	<!-- 数据源配置 -->
+	<!--配置数据源 -->
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${mySql.driver}" />
+		<property name="url" value="${mySql.url}" />
+		<property name="username" value="${mySql.user}" />
+		<property name="password" value="${mySql.password}" />
+	</bean>
+	<!--配置sqlSessionFactoryBean -->
+	<bean id="SqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!--配置数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<!--引入Mabitis配置文件 -->
+		<property name="configLocation"
+			value="classpath:MyBatis-config.xml" />
+	</bean>
+	<!-- 采用接口扫描技术 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="cn.DeepBlue.dao" />
+	</bean>
+	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="cn.deepBlue.dao" />
+    <property name="properties">
+        <value>
+            mappers=tk.mybatis.mapper.common.Mapper,tk.mybatis.mapper.common.special.InsertListMapper
+        </value>
+    </property>
+    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+</bean>
+</beans>

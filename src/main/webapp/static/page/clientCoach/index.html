@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>DeepBlue教练</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui2/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="index.css"/>
+</head>
+<body>
+<div class="layui-row" style="background-image:url('../../images/background.png');background-size: 110% 100%;" >
+    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="text-align: center">
+
+        <div class="layui-tab" lay-filter="demo">
+
+            <ul class="layui-tab-title layui-tab-card">
+                <li class="layui-this">签到</li>
+                <li>我的预约</li>
+                <div class="layui-inline" style="display: inline;"> <img id="loginout" style="width: 20px; height: 20px" src="../../images/loginout.jpg"></div>
+            </ul>
+
+            <div class="layui-tab-content" style="height: 430px;width: 100%;padding: 0">
+                <!--预约-->
+                <div class="layui-tab-item layui-show">
+                    <!--日历显示区-->
+                    <div id="laydateArea"></div>
+                    <!--日历颜色表示-->
+                    <div class="layui-show" style="text-align: right;background-color:rgba(0,0,0,0.6)">
+                        <ul>
+                            <li>当前日期&nbsp;&nbsp;<span class="layui-badge-dot layui-bg-green"></span></li>
+                            <li>有课&nbsp;&nbsp;<span class="layui-badge-dot layui-bg-orange"></span></li>
+                        </ul>
+                    </div>
+                    <!--课程选择区-->
+                    <div class="layui-show" style="width: auto;font-family: Arial;background-color: white;border-radius: 2em">
+                        <!--日历显示区-->
+                        <div class="grid-demo " style="font-size: 15px;color: #3a74d3;text-align: center;padding-top: 10px" id="selectDate"></div>
+                        <!--课程时间段显示区-->
+                        <div class="layui-show" style="text-align: center;margin-top: 2%">
+                            <ul id="classTimeShow">
+                            </ul>
+                        </div>
+                        <!--课程名称显示区-->
+                        <div class="layui-show" style="margin-top: 2%;text-align: center;background-image: url('../../images/coach.png')">
+                                <!--<div class="layui-inline" style="width: 40%;height: 1px;background-color: #3a74d3"></div>-->
+                                <div class="layui-inline" style="width: 15%;text-align: center;font-family: Arial;color: #0C0C0C" id="classNameShow"></div>
+                                <!--<div class="layui-inline" style="width: 40%;height: 1px;background-color: #3a74d3"></div>-->
+                        </div>
+                        <!--学员预约显示区-->
+                        <table class="layui-table" lay-skin="nob" id="userInfoTable" lay-filter="test" style="table-layout: auto">
+                            <colgroup>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>姓名</th>
+                                <th>学员手机</th>
+                                <th>状态</th>
+                            </tr>
+                            </thead>
+                            <tbody  id="usersubscribeclassContent" class="class_content" style="text-align: left" lay-skin="nob"></tbody>
+                        </table>
+                    </div>
+                    <!--考勤人数显示 -->
+                    <div id="currClassSubscribeInfo" class="layui-show">
+                        <!--距离开课时间-->
+                        <div id="distance" class="layui-block" style="text-align: center;color: #999999;font-size: 11px;font-family: Arvo"></div>
+                    </div>
+                </div>
+                <!--考勤-->
+                <div class="layui-tab-item" style="height: 430px;width: 100%">
+                    <!--搜索框-->
+                    <div class="layui-form layui-input-inline" style="margin-top: 20px;width: 100%">
+                        <!--预约考勤显示区-->
+                        <div class="layui-inline" style="width: 100%;height: 430px;background-color:white;margin-top: 5%;text-align: center;border-radius: 2em 2em 0 0 " >
+                            <div class="layui-inline" style="width: 100px;height:6px;text-align: center;margin-top: 5%;background-color: #0000FF;border-radius: 2em"></div>
+                            <!--表格显示框-->
+                            <table class="layui-table" lay-skin="nob" lay-filter="test" style="table-layout: auto">
+                                <colgroup>
+                                    <col width=120>
+                                    <col>
+                                    <col width=80>
+                                    <col>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th>开课日期</th>
+                                    <th>名称</th>
+                                    <th>学员</th>
+                                    <th>手机</th>
+                                </tr>
+                                </thead>
+                                <tbody  id="currUserclassContent" class="class_content" style="text-align: center" lay-skin="nob"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../../layui2/layui.js"></script>
+<script type="text/javascript" src="../../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.cookie.js"></script>
+<script type="text/javascript" src="index.js"></script>
+</body>
+</html>

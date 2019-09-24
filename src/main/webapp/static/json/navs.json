@@ -1,0 +1,26 @@
+[{
+	"title" : "后台首页",
+	"icon" : "icon-computer",
+	"href" : "page/main.html",
+	"spread" : false
+},{
+	"title" : "学员管理",
+	"icon" : "icon-text",
+	"href" : "page/news/newsList.html",
+	"spread" : false
+},{
+	"title" : "教练管理",
+	"icon" : "&#xe64c;",
+	"href" : "page/coach/coachList.html",
+	"spread" : false
+},{
+	"title" : "课程安排",
+	"icon" : "&#xe631;",
+	"href" : "page/systemParameter/systemParameter.html",
+	"spread" : false
+},{
+	"title" : "考勤预约",
+	"icon" : "&#xe630;",
+	"href" : "page/checkWork/checkWork.html",
+	"spread" : false
+}]

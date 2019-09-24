@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="MysqlContext" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="cn.DeepBlue.utils.MyMapper"/>
+        </plugin>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:0710/fitness"
+                         userId="root"
+                         password="123456">
+        </jdbcConnection>
+
+        <!-- 对应生成的pojo所在包 -->
+        <javaModelGenerator targetPackage="cn.DeepBlue.pojo" targetProject="src/main/java"/>
+
+        <!-- 对应生成的mapper所在目录 -->
+        <sqlMapGenerator targetPackage="cn.DeepBlue.mapper" targetProject="src/main/java"/>
+
+        <!-- 配置mapper对应的java映射 -->
+        <javaClientGenerator targetPackage="cn.DeepBlue.dao" targetProject="src/main/java"
+        type="XMLMAPPER"/>
+
+		<!--<table tableName="attendance"></table>-->
+		<!--<table tableName="course"></table>-->
+     <!--   <table tableName="courseclassify"></table>
+        <table tableName="subscribe"></table>-->
+      <!--  <table tableName="user"></table>
+        <table tableName="userrole"></table>
+        <table tableName="address"></table>-->
+		<!-- <table tableName="smbms_provider"></table>
+		<table tableName="smbms_bill"></table>
+		<table tableName="smbms_address"></table> -->
+        <!--<table tableName="UserLever"></table>-->
+        <table tableName="subscribestatus"></table>
+        
+		
+        
+
+    </context>
+</generatorConfiguration>

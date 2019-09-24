@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>DeepBlue用户</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui2/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="index.css"/>
+    <!-- <style type="text/css">
+         #laydateDemo .layui-laydate-main{width:50%;height: auto}
+         #laydateDemo .layui-laydate-content td,#laydateDemo .layui-laydate-content th{width:2%;height: 7%;}
+     </style>-->
+</head>
+<body>
+<div class="layui-row" style="background-image:url('../../images/background.png');background-size: 110% 100%;" >
+    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="text-align: center">
+
+        <div class="layui-tab" lay-filter="demo">
+
+            <ul class="layui-tab-title layui-tab-card">
+                <li class="layui-this">预约</li>
+                <li>历史考勤</li>
+                <div class="layui-inline" style="display: inline;right: -40px"> <img id="loginout" style="width: 20px; height: 20px" src="../../images/loginout.jpg"></div>
+            </ul>
+
+            <div class="layui-tab-content" style="height: 430px;width: 100%;padding: 0">
+                <!--预约-->
+                <div class="layui-tab-item layui-show">
+                    <!--日历显示区-->
+                    <div id="laydateArae"></div>
+                    <!--日历颜色表示-->
+                    <div class="layui-show" style="text-align: right;background-color:rgba(0,0,0,0.6)">
+                        <ul>
+                            <li>当前日期&nbsp;&nbsp;<span class="layui-badge-dot layui-bg-green"></span></li>
+                            <li>有课&nbsp;&nbsp;<span class="layui-badge-dot layui-bg-orange"></span></li>
+                        </ul>
+                    </div>
+                    <!--课程选择区-->
+                    <div class="layui-show" style="width: auto;font-family: Arial;background-color: white;border-radius: 2em">
+                        <!--日历显示区-->
+                        <div class="grid-demo " style="font-size: 15px;color: #3a74d3;text-align: center;padding-top: 10px" id="selectDate"></div>
+                        <!--课程级别显示区-->
+                        <div class="layui-show" style="text-align: center;margin-top: 2%">
+                            <ul>
+                                <li>初级&nbsp;&nbsp;<span class="layui-badge-dot " style="background-color: #ed8b22"></span></li>
+                                <li>中级&nbsp;&nbsp;<span class="layui-badge-dot " style="background-color: #1da5f3"></span></li>
+                                <li>高级&nbsp;&nbsp;<span class="layui-badge-dot " style="background-color: #a222e4"></span></li>
+                            </ul>
+                        </div>
+                        <!--课程预约显示区-->
+                        <table class="layui-table" lay-skin="nob" id="userInfoTable" lay-filter="test" style="table-layout: auto">
+                            <colgroup>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                                <col width=20>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>课程</th>
+                                <th>时间</th>
+                                <th>教练</th>
+                                <th>费用</th>
+                                <th>状态</th>
+                            </tr>
+                            </thead>
+                            <tbody  id="classContent" class="class_content" style="text-align: center" lay-skin="nob"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--考勤-->
+                <div class="layui-tab-item" style="height: 430px;width: 100%">
+                    <!--搜索框-->
+                    <div class="layui-form layui-input-inline" style="margin-top: 20px;text-align: center">
+                        <!--开始日期-->
+                        <div class="layui-input-inline" style="margin-right: 10px">
+                            <input type="text" placeholder="请选择开始时间" class="layui-input" lay-verify="required" id="startDate" style="border-radius: 2em;width: 130px;height: 38px;background-color:rgba(0,0,0,0.6);color:#fbfff4;border:transparent ">
+                        </div>
+                        <!--结束日期-->
+                        <div class="layui-input-inline" style="margin-right: 10px">
+                            <input type="text" placeholder="请选择结束时间" class="layui-input" lay-verify="required" id="endDate" style="border-radius: 2em;width: 130px;height: 38px;background-color:rgba(0,0,0,0.6);color: #fbfff4;border:transparent">
+                        </div>
+                        <!--查询按钮-->
+                        <div class="layui-input-inline" >
+                            <button type="button" lay-submit=""  class="layui-btn layui-btn-radius layui-btn-warm" lay-filter="selectBut" style="" >查询</button>
+                        </div>
+
+                        <!--预约考勤显示区-->
+                        <div class="layui-inline" style="width: 100%;height: 430px;background-color:white;margin-top: 5%;text-align: center;border-radius: 2em 2em 0 0 " >
+                                <div class="layui-inline" style="width: 100px;height:6px;text-align: center;margin-top: 5%;background-color: #3a74d3;border-radius: 2em"></div>
+                                <!--表格显示框-->
+                            <table class="layui-table" lay-skin="nob" lay-filter="test" style="table-layout: auto">
+                                <colgroup>
+                                    <col>
+                                    <col>
+                                    <col width=59>
+                                    <col>
+                                    <col>
+                                    <col>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th>日期</th>
+                                    <th></th>
+                                    <th>课程</th>
+                                    <th>时间</th>
+                                    <th>教练</th>
+                                    <th>状态</th>
+                                </tr>
+                                </thead>
+                                <tbody  id="currUserclassContent" class="class_content" style="text-align: center" lay-skin="nob"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../../layui2/layui.js"></script>
+<script type="text/javascript" src="../../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.cookie.js"></script>
+<script type="text/javascript" src="index.js"></script>
+</body>
+</html>

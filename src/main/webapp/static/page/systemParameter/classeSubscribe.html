@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>预约考勤</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all" />
+    <link rel="stylesheet" href="../../css/news.css" media="all" />
+</head>
+<body class="childrenBody">
+<blockquote class="layui-elem-quote news_search" >
+    <div class="layui-form">
+        <div class="layui-inline">
+            <div class="layui-form-item">
+                <div class="layui-input-inline">
+                    <select id="selectStatus" lay-verify="required">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <button class="layui-btn" lay-submit lay-filter="selectByStatus">查询</button>
+            </div>
+        </div>
+    </div>
+</blockquote>
+<div class="layui-form news_list">
+    <table class="layui-table" id="userInfoTable" lay-filter="test">
+        <colgroup>
+            <!--<col width="25">-->
+            <col width="9%">
+            <col width="9%">
+            <col width="9%">
+            <col width="9%">
+            <col width="9%">
+            <col width="9%">
+            <col width="9%">
+            <col width="9%">
+        </colgroup>
+        <thead>
+        <tr>
+            <!--<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>-->
+            <th>预约课程</th>
+            <th>预约学员</th>
+            <th>预约教练</th>
+            <th>预约时间</th>
+            <th>开课时间</th>
+            <th>结束时间</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody class="subscribeContent"></tbody>
+    </table>
+</div>
+<div id="page"></div>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.cookie.js"></script>
+<script type="text/javascript" src="classeSubscribe.js"></script>
+</body>
+</html>

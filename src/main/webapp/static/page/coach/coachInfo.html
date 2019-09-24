@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>个人资料--个人详细信息</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="../../css/user.css" media="all" />
+</head>
+<body class="childrenBody">
+<form class="layui-form">
+    <div class="user_left">
+        <div class="layui-form-item">
+            <label class="layui-form-label">昵称</label>
+            <div class="layui-input-block">
+                <input type="text" value="" disabled class="layui-input layui-disabled userCode"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">真实姓名</label>
+            <div class="layui-input-block">
+                <input type="text" value=""  disabled class="layui-input layui-disabled realName">
+            </div>
+        </div>
+        <div class="layui-form-item" pane="">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-block userSex">
+                <input disabled type="radio" name="gender" value="1" title="男" >
+                <input disabled type="radio" name="gender" value="2" title="女" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">手机号码</label>
+            <div class="layui-input-block">
+                <input type="tel" disabled value="" placeholder="请输入手机号码" lay-verify="required|phone" class="layui-input userPhone">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">出生年月</label>
+            <div class="layui-input-block">
+                <input type="text" disabled value="" placeholder="请输入出生年月" lay-verify="required|date" onclick="layui.laydate({elem: this,max: laydate.now()})" class="layui-input userBirthday">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">年龄</label>
+            <div class="layui-input-block">
+                <input type="text"  disabled value="" placeholder="年龄" lay-verify="required" class="layui-input Age">
+            </div>
+        </div>
+       <!-- <div class="layui-form-item">
+            <label class="layui-form-label">学员等级</label>
+            <div class="layui-input-block">
+                <input type="text"  disabled value="" placeholder="学员等级" lay-verify="required" class="layui-input userLever">
+            </div>
+        </div>-->
+        <div class="layui-form-item">
+            <label class="layui-form-label">教练描述</label>
+            <div class="layui-input-block">
+                <textarea  disabled class="layui-textarea myself"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item" style="margin-left: 5%;">
+        <div class="layui-input-block">
+            <a href="coachList.html" class="layui-btn" > 返回 </a>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.cookie.js"></script>
+<script type="text/javascript" src="coachInfo.js"></script>
+</body>
+</html>

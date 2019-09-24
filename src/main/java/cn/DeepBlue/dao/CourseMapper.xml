@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.DeepBlue.dao.CourseMapper" >
+  <resultMap id="BaseResultMap" type="cn.DeepBlue.pojo.Course" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="CId" property="cid" jdbcType="INTEGER" />
+    <result column="CourseName" property="coursename" jdbcType="VARCHAR" />
+    <result column="CourseClassify" property="courseclassify" jdbcType="INTEGER" />
+    <result column="AddressId" property="addressid" jdbcType="INTEGER" />
+    <result column="CourseStartTime" property="coursestarttime" jdbcType="TIMESTAMP" />
+    <result column="CourseEndTime" property="courseendtime" jdbcType="TIMESTAMP" />
+    <result column="CourseMoney" property="coursemoney" jdbcType="VARCHAR" />
+    <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR" />
+    <result column="CREATED_TIME" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_BY" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="UPDATED_TIME" property="updatedTime" jdbcType="TIMESTAMP" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+<!--SELECT cc.CourseClassfyName,u.UserName,a.AddName,c.* FROM course as c,address AS a,`user` as u, courseclassify as cc where cc.CourseClassfyId = c.CourseClassify and c.AddressId =a.AddId AND c.CoachId = u.uId-->
+  <!--getAllClassInfo-->
+  <select id="getAllClassInfo" parameterType="java.util.Map" resultType="cn.DeepBlue.pojo.Course">
+    select
+    cc.CourseClassfyName as courseclassfyname,
+    u.UserName as  coachname,
+    a.AddName as  addname,
+    c.CId as cid,
+    c.CourseName as coursename,
+    c.CourseClassify as courseclassify,
+    c.AddressId as addressid,
+    c.CourseStartTime as coursestarttime,
+    c.CourseEndTime as courseendtime,
+    c.CourseMoney as coursemoney,
+    c.CREATED_BY as createdBy,
+    c.CREATED_TIME as createdTime,
+    c.UPDATED_BY as updatedBy,
+    c.UPDATED_TIME as updatedTime,
+    c.CoachId as coachid
+    from `course` as c,address AS a,`user` as u, courseclassify as cc
+    <trim prefix="where" prefixOverrides="and | or">
+      cc.CourseClassfyId = c.CourseClassify
+      and c.AddressId =a.AddId
+      and c.CoachId = u.uId
+      <if test="cid != null and cid!=''">
+        and CId=#{cid}
+      </if>
+      <if test="coursename != null and coursename!=''">
+        and CourseName=#{coursename}
+      </if>
+      <if test="courseclassify != null and courseclassify!=''">
+        and CourseClassify=#{courseclassify}
+      </if>
+      <if test="addressid != null and addressid!=''">
+        and AddressId=#{addressid}
+      </if>
+      <if test="coursestarttime != null and coursestarttime!=''">
+        and CourseStartTime=#{coursestarttime}
+      </if>
+      <if test="courseendtime != null and courseendtime!=''">
+        and CourseEndTime=#{courseendtime}
+      </if>
+      <if test="coursemoney != null and coursemoney!=''">
+        and CourseMoney=#{coursemoney}
+      </if>
+      <if test="createdBy != null and createdBy!=''">
+        and CREATED_BY=#{createdBy}
+      </if>
+      <if test="createdTime != null and createdTime!=''">
+        and CREATED_TIME=#{createdTime}
+      </if>
+      <if test="updatedBy != null and updatedBy!=''">
+        and UPDATED_BY=#{updatedBy}
+      </if>
+      <if test="updatedTime != null and updatedTime!=''">
+        and UPDATED_TIME=#{updatedTime}
+      </if>
+      <if test="coachid != null and coachid!=''">
+        and CoachId=#{coachid}
+      </if>
+    </trim>
+  </select>
+  <!--getAllCourseInfo-->
+  <select id="getAllCourseInfo" resultType="cn.DeepBlue.pojo.User">
+    select
+    uID as uid,
+    UserName as username
+    from
+    `user`
+    where
+    UserRole = 2
+  </select>
+  <!--getAllAddressInfo-->
+  <select id="getAllAddressInfo" resultType="cn.DeepBlue.pojo.Address">
+    select
+    AddID as addid,
+    AddName as addname
+    from
+    address
+  </select>
+<!--updateClassInfo-->
+  <update id="updateClassInfo" parameterType="java.util.Map">
+    update `course`
+    <trim prefix="set" suffixOverrides="," suffix="where CId=#{cid}">
+      <if test="coursename != null and coursename!=''">
+        CourseName=#{coursename},
+      </if>
+      <if test="courseclassify != null and courseclassify!=''">
+        CourseClassify=#{courseclassify},
+      </if>
+      <if test="addressid != null and addressid!=''">
+        AddressId=#{addressid},
+      </if>
+      <if test="coursestarttime != null and coursestarttime!=''">
+        CourseStartTime=#{coursestarttime},
+      </if>
+      <if test="courseendtime != null and courseendtime!=''">
+        CourseEndTime=#{courseendtime},
+      </if>
+      <if test="coursemoney != null and coursemoney!=''">
+        CourseMoney=#{coursemoney},
+      </if>
+      <if test="createdBy != null and createdBy!=''">
+        CREATED_BY=#{createdBy},
+      </if>
+      <if test="createdTime != null and createdTime!=''">
+        CREATED_TIME=#{createdTime},
+      </if>
+      <if test="updatedBy != null and updatedBy!=''">
+        UPDATED_BY=#{updatedBy},
+      </if>
+      <if test="updatedTime != null and updatedTime!=''">
+        UPDATED_TIME=#{updatedTime},
+      </if>
+      <if test="coachid != null and coachid!=''">
+        CoachId=#{coachid}
+      </if>
+    </trim>
+  </update>
+  <!--insertClassInfo-->
+  <insert id="insertClassInfo" parameterType="java.util.Map">
+        insert into `course`(
+                        CourseName,
+                        CourseClassify,
+                        AddressId,
+                        CourseStartTime ,
+                        CourseEndTime ,
+                        CourseMoney ,
+                        CREATED_BY ,
+                        CREATED_TIME ,
+                        UPDATED_BY ,
+                        UPDATED_TIME ,
+                        CoachId )
+        values(
+                        #{coursename},
+                         #{courseclassify},
+                         #{addressid},
+                        #{coursestarttime},
+                        #{courseendtime},
+                        #{coursemoney},
+                        #{createdBy},
+                         #{createdTime},
+                         #{updatedBy},
+                        #{updatedTime},
+                        #{coachid} )
+    </insert>
+  <!--getAllClassInfoByParam-->
+  <select id="getAllClassInfoByParam" parameterType="java.util.Map" resultType="cn.DeepBlue.pojo.Course">
+      select
+      cc.CourseClassfyName as courseclassfyname,
+      u.UserName as  coachname,
+      a.AddName as  addname,
+      c.CId as cid,
+      c.CourseName as coursename,
+      c.CourseClassify as courseclassify,
+      c.AddressId as addressid,
+      c.CourseStartTime as coursestarttime,
+      c.CourseEndTime as courseendtime,
+      c.CourseMoney as coursemoney,
+      c.CREATED_BY as createdBy,
+      c.CREATED_TIME as createdTime,
+      c.UPDATED_BY as updatedBy,
+      c.UPDATED_TIME as updatedTime,
+      c.CoachId as coachid
+      from `course` as c,address AS a,`user` as u, courseclassify as cc
+      <trim prefix="where" prefixOverrides="and | or">
+        cc.CourseClassfyId = c.CourseClassify
+        and c.AddressId =a.AddId
+        AND c.CoachId = u.uId
+        <if test="classname != null and classname!=''">
+          and c.CourseName=#{classname}
+        </if>
+        <if test="startDate != null and endDate != null ">
+            and c.CourseStartTime between #{startDate} and #{endDate}
+        </if>
+      </trim>
+    </select>
+    <!--delClassInfo-->
+    <delete id="delClassInfo">
+        delete from course where CId = #{cid}
+    </delete>
+    <!--delClassInfoByCoachId-->
+    <delete id="delClassInfoByCoachId" >
+        delete from course where CoachId = #{uid}
+    </delete>
+    <!--getCurrCoachClass-->
+    <select id="getCurrCoachClass" parameterType="java.util.Map" resultType="cn.DeepBlue.pojo.Course">
+        select
+        a.AddName as  addname,
+        c.CId as cid,
+        c.CourseName as coursename,
+        c.CourseClassify as courseclassify,
+        c.AddressId as addressid,
+        c.CourseStartTime as coursestarttime,
+        c.CourseEndTime as courseendtime,
+        c.CourseMoney as coursemoney,
+        c.CREATED_BY as createdBy,
+        c.CREATED_TIME as createdTime,
+        c.UPDATED_BY as updatedBy,
+        c.UPDATED_TIME as updatedTime,
+        c.CoachId as coachid
+        from `course` as c,address AS a
+        <trim prefix="where" prefixOverrides="and | or">
+            and c.AddressId =a.AddId
+            <if test="cid != null and cid!=''">
+                and CId=#{cid}
+            </if>
+            <if test="coursename != null and coursename!=''">
+                and CourseName=#{coursename}
+            </if>
+            <if test="courseclassify != null and courseclassify!=''">
+                and CourseClassify=#{courseclassify}
+            </if>
+            <if test="addressid != null and addressid!=''">
+                and AddressId=#{addressid}
+            </if>
+            <if test="coursestarttime != null and coursestarttime!=''">
+                and CourseStartTime=#{coursestarttime}
+            </if>
+            <if test="courseendtime != null and courseendtime!=''">
+                and CourseEndTime=#{courseendtime}
+            </if>
+            <if test="coursemoney != null and coursemoney!=''">
+                and CourseMoney=#{coursemoney}
+            </if>
+            <if test="createdBy != null and createdBy!=''">
+                and CREATED_BY=#{createdBy}
+            </if>
+            <if test="createdTime != null and createdTime!=''">
+                and CREATED_TIME=#{createdTime}
+            </if>
+            <if test="updatedBy != null and updatedBy!=''">
+                and UPDATED_BY=#{updatedBy}
+            </if>
+            <if test="updatedTime != null and updatedTime!=''">
+                and UPDATED_TIME=#{updatedTime}
+            </if>
+            <if test="coachid != null and coachid!=''">
+                and CoachId=#{coachid}
+            </if>
+            <if test="startDate != null and endDate != null ">
+                and c.CourseStartTime between #{startDate} and #{endDate}
+            </if>
+        </trim>
+    </select>
+
+
+</mapper>
