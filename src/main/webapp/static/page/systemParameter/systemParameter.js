@@ -238,7 +238,6 @@ layui.config({
             pages: Math.ceil(clasData.length / nums),
             jump: function (obj) {
                 $(".class_content").html(renderDate(clasData, obj.curr));
-              /*  $('.news_list thead input[type="checkbox"]').prop("checked", false);*/
                 form.render();
             }
         })

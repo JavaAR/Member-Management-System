@@ -67,7 +67,7 @@ layui.config({
             type:'get',
             data:{
                 'cid':cid,
-                'status':status
+                'statusid':status
             },
             headers:{
                 'token':token
@@ -142,7 +142,7 @@ layui.config({
                         }
                     }
                     dataHtml += '<td>'
-                        + '<a class="layui-btn layui-btn-mini coach_edit" data-id="' + data[i].subscribeid + '"><i class="iconfont icon-edit"></i> 编辑</a>'
+                        /*+ '<a class="layui-btn layui-btn-mini coach_edit" data-id="' + data[i].subscribeid + '"><i class="iconfont icon-edit"></i> 编辑</a>'*/
                         + '</td>'
                         + '</tr>';
 
