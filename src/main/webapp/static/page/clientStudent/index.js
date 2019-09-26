@@ -301,7 +301,7 @@ layui.use(['element', 'laydate', 'layer', 'form', 'table'], function () {
                 }
                 dataHtml += '<td>' + classes[i].coursename + '</td>'//课程名
                     + '<td>' + [sthours, stMill].join(':') + "-" + [enhours, enMill].join(':') + '</td>'
-                    + '<td>' + classes[i].coachname + '</td>'
+                    /*+ '<td>' + classes[i].coachname + '</td>'*/
                     + '<td>' + classes[i].coursemoney + '</td>';
                 if (flag) {
                     dataHtml += '<td> <button type="button" class="layui-btn layui-btn-radius layui-btn-warm subscribeClass" status=1 id=' + classes[i].cid + '>预约</button></td>'
@@ -620,7 +620,7 @@ function renderercurrUserClass(that) {
             }
             dataHtml += '<td>' + that[i].coursename + '</td>'//课程名
                 + '<td>' + [sthours, starMill].join(':') + "-" + [endHours, endMill].join(':') + '</td>'//时间
-                + '<td>' + that[i].coachname + '</td>'
+               /* + '<td>' + that[i].coachname + '</td>'*/
             switch (that[i].status) {
                 case 1: {
                     dataHtml += '<td style="color: #ed8b22">已预约</td>';
