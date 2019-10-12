@@ -6,6 +6,7 @@ layui.use(['element', 'laydate', 'layer', 'form', 'table','util'], function () {
         table = layui.table,
         $ = layui.jquery,
         util = layui.util;
+
     /**
      * 渲染日历组件并获取当前教练的信息
      */
@@ -32,6 +33,7 @@ layui.use(['element', 'laydate', 'layer', 'form', 'table','util'], function () {
                 success: function (res) {
                     if (res.success == "true") {
                         currCoachInfo = res.data;
+                        layer.msg("欢迎您："+currCoachInfo.username);
                         //获取当前教练的课程
                         getCurrCoachClass(currCoachInfo.uid,LastMonthStartDate, NextMonthEndDate);
                         //过时自动打卡
@@ -136,7 +138,6 @@ layui.use(['element', 'laydate', 'layer', 'form', 'table','util'], function () {
     nextMonthDate.setDate(1);
     nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
     var nextMonth = nextMonthDate.getMonth();
-    layer.msg("本程序只显示" + (lastMonth + 1) + "月，" + (nowMonth + 1) + "月，" + (nextMonth + 1) + "月的课程,如有其他需求请联系深蓝探索");
     //获得某月的天数
     function getMonthDays(myMonth) {
         var monthStartDate = new Date(nowYear, myMonth, 1);

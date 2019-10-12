@@ -27,7 +27,6 @@ layui.config({
             },
             type: 'post',
             success: function (res) {
-                console.log(JSON.stringify(res));
                 if (res.success == "true") {
                     userData = res.data;
                     newsList();
@@ -170,13 +169,11 @@ layui.config({
         var nums = 10; //每页出现的数据量
         if (that) {
             userData = that;
-            console.log(userData);
         }
         laypage({
             cont: "page",
             pages: Math.ceil(userData.length / nums),
             jump: function (obj) {
-                console.log(obj);
                 $(".news_content").html(renderDate(userData, obj.curr));
                 $('.news_list thead input[type="checkbox"]').prop("checked", false);
                 form.render();
