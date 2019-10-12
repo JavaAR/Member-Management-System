@@ -31,14 +31,14 @@ public interface SubscribeService {
      * @param paramMap
      * @return
      */
-    List<Subscribe> getSubscribeByUserforMap(HashMap<Object, Object> paramMap);
+    List<Subscribe> getSubscribeByUserforMap(HashMap<Object, Object> paramMap)throws Exception;
 
     /**
      *查看当前用户的所有考勤
      * @param paramMap
      * @return
      */
-    List<Subscribe> getSubscribeByUser(HashMap<Object, Object> paramMap);
+    List<Subscribe> getSubscribeByUser(HashMap<Object, Object> paramMap)throws Exception;
 
     /**
      * 教练打卡学员操作
@@ -47,7 +47,7 @@ public interface SubscribeService {
      * @param currCoach
      * @return
      */
-    int updateSubscribe(Integer sid, String statusid, User currCoach);
+    int updateSubscribe(Integer sid, String statusid, User currCoach)throws Exception;
 
     /**
      * 学员段取消预约操作
@@ -55,44 +55,52 @@ public interface SubscribeService {
      * @param uid
      * @return
      */
-    int deleSubscribeInfo(Integer cid, Integer uid);
+    int deleSubscribeInfo(Integer cid, Integer uid)throws Exception;
 
     /**
      * 查询当前教练的所有预约
      * @param coachId
      * @return
      */
-    List<Subscribe> getCurrCoachSubscribeClass(Integer coachId);
+    List<Subscribe> getCurrCoachSubscribeClass(Integer coachId)throws Exception;
 
     /**
      * 教练段迟到自动打卡
      * @param subscribeId
      * @return
      */
-    int doclassOverPunchCard(Integer subscribeId);
+    int doclassOverPunchCard(Integer subscribeId)throws Exception;
 
     /**
      * 管理员端查询所有的预约考勤
      * @param paramMap
      * @return
      */
-    List<Subscribe> getAllSubscribeInfo(HashMap<Object, Object> paramMap);
+    List<Subscribe> getAllSubscribeInfo(HashMap<Object, Object> paramMap)throws Exception;
 
     /**
      * 获取所有预约状态
      * @return
      */
-    List<Subscribestatus> getAllSubscribeidStatus();
+    List<Subscribestatus> getAllSubscribeidStatus() throws Exception;
 
     /**
      * 获取所有预约
      * @param paramMap
      * @return
      */
-    Integer getCountByMap(HashMap<Object, Object> paramMap);
+    Integer getCountByMap(HashMap<Object, Object> paramMap)throws Exception;
 
     /**
-     * 获取当前课程的所有预约信息
+     * 查询预约信息是否为以打卡或未打卡
+     * @param cid
+     * @param uid
+     * @return
+     */
+    Subscribe getCancelClass(Integer cid, Integer uid)throws Exception;
+
+    /**
+     * 获取所有课程与预约信息
      * @param paramMap
      * @return
      */

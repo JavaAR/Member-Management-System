@@ -1,25 +1,25 @@
 package cn.DeepBlue.contorller;
 
+import cn.DeepBlue.pojo.Course;
 import cn.DeepBlue.pojo.Subscribe;
 import cn.DeepBlue.pojo.Subscribestatus;
 import cn.DeepBlue.pojo.User;
 import cn.DeepBlue.pojo.dto.Dto;
+import cn.DeepBlue.pojo.vo.ClassInfoVo;
 import cn.DeepBlue.service.SubscribeService;
 import cn.DeepBlue.utils.DtoUtil;
 import cn.DeepBlue.utils.EmptyUtils;
 import cn.DeepBlue.utils.ErrorCode;
 import cn.DeepBlue.utils.RedisAPI;
 import com.alibaba.fastjson.JSON;
+import com.sun.istack.internal.NotNull;
+import net.sf.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * 预约控制器
@@ -45,11 +45,11 @@ public class SubscribeContorller {
                            @RequestParam(value = "userId") Integer userId){
         try {
             if(EmptyUtils.isNotEmpty(classId)&&EmptyUtils.isNotEmpty(userId)){
-             boolean flag = subscribeService.getSubscribe(classId,userId);
-             if(flag){
-                 return DtoUtil.returnSuccess();
-             }
-             return DtoUtil.returnFail("已经预约过啦",ErrorCode.BIZ_QUERY_FILED);
+                boolean flag = subscribeService.getSubscribe(classId,userId);
+                if(flag){
+                    return DtoUtil.returnSuccess();
+                }
+                return DtoUtil.returnFail("已经预约过啦",ErrorCode.BIZ_QUERY_FILED);
             }else{
                 return DtoUtil.returnFail("请刷新页面", ErrorCode.BIZ_PARAMETER_ERROR);
             }
@@ -108,7 +108,7 @@ public class SubscribeContorller {
                     paramMap.put("coursestarttime",sdate);
                     paramMap.put("courseendtime",c.getTime());
                 }
-               List<Subscribe> subscribeList = subscribeService.getSubscribeByUser(paramMap);
+                List<Subscribe> subscribeList = subscribeService.getSubscribeByUser(paramMap);
                 if(subscribeList.size()==0){
                     return DtoUtil.returnFail("暂无数据",ErrorCode.BIZ_QUERY_FILED);
                 }
@@ -124,7 +124,7 @@ public class SubscribeContorller {
 
     /**
      * 教练段获取当前课程所有预约学员
-      * @param cid
+     * @param cid
      * @param startTime
      * @param endTime
      * @return
@@ -196,7 +196,7 @@ public class SubscribeContorller {
                                  @RequestParam(value = "uid") Integer uid){
         try {
             if(EmptyUtils.isNotEmpty(cid)&&EmptyUtils.isNotEmpty(uid)){
-               int result = subscribeService.deleSubscribeInfo(cid,uid);
+                int result = subscribeService.deleSubscribeInfo(cid,uid);
                 if(result>0){
                     return DtoUtil.returnSuccess();
                 }
@@ -220,7 +220,7 @@ public class SubscribeContorller {
     public Dto dogetCurrCoachSubscribeClass(@RequestParam(value = "coachId") Integer coachId){
         try {
             if(EmptyUtils.isNotEmpty(coachId)){
-             List<Subscribe> subscribeList = subscribeService.getCurrCoachSubscribeClass(coachId);
+                List<Subscribe> subscribeList = subscribeService.getCurrCoachSubscribeClass(coachId);
                 if(subscribeList.size()>0){
                     return DtoUtil.returnDataSuccess(subscribeList);
                 }
@@ -244,11 +244,11 @@ public class SubscribeContorller {
     public Dto doclassOverPunchCard(@RequestParam(value = "SubscribeId") Integer SubscribeId){
         try {
             if(EmptyUtils.isNotEmpty(SubscribeId)){
-              int result = subscribeService.doclassOverPunchCard(SubscribeId);
-              if(result>0){
-                return DtoUtil.returnSuccess();
-              }
-              return DtoUtil.returnFail("自动打卡失败",ErrorCode.BIZ_UPDATE_FILED);
+                int result = subscribeService.doclassOverPunchCard(SubscribeId);
+                if(result>0){
+                    return DtoUtil.returnSuccess();
+                }
+                return DtoUtil.returnFail("自动打卡失败",ErrorCode.BIZ_UPDATE_FILED);
             }else{
                 return DtoUtil.returnFail("请刷新页面后重试",ErrorCode.BIZ_PARAMETER_ERROR);
             }
@@ -291,16 +291,21 @@ public class SubscribeContorller {
     @RequestMapping(value = "getsubscribeInfo",method = RequestMethod.GET,produces = "application/json")
     @ResponseBody
     public Dto dogetsubscribeInfo(@RequestParam("subscribeid")Integer subscribeid){
-        if(EmptyUtils.isNotEmpty(subscribeid)){
-            HashMap<Object, Object> paramMap = new HashMap<>();
-            paramMap.put("subscribeid",subscribeid);
-            List<Subscribe> info = subscribeService.getAllSubscribeInfo(paramMap);
-            if(info.size()>0){
-                return DtoUtil.returnDataSuccess(info.get(0));
+        try {
+            if(EmptyUtils.isNotEmpty(subscribeid)){
+                HashMap<Object, Object> paramMap = new HashMap<>();
+                paramMap.put("subscribeid",subscribeid);
+                List<Subscribe> info = subscribeService.getAllSubscribeInfo(paramMap);
+                if(info.size()>0){
+                    return DtoUtil.returnDataSuccess(info.get(0));
+                }
+                return DtoUtil.returnFail("查询失败，请重试",ErrorCode.BIZ_QUERY_FILED);
+            }else{
+                return DtoUtil.returnFail("获取信息失败，请刷新页面",ErrorCode.BIZ_PARAMETER_ERROR);
             }
-            return DtoUtil.returnFail("查询失败，请重试",ErrorCode.BIZ_QUERY_FILED);
-        }else{
-            return DtoUtil.returnFail("获取信息失败，请刷新页面",ErrorCode.BIZ_PARAMETER_ERROR);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return DtoUtil.returnFail("系统异常",ErrorCode.BIZ_UNKNOWN);
         }
     }
 
@@ -356,5 +361,95 @@ public class SubscribeContorller {
         }
     }
 
+    /**
+     * 批量预约课程
+     * @param
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "batchsubscribeClass",method = RequestMethod.POST,produces = "application/json")
+    @ResponseBody
+    public Dto dobatchsubscribeClass(@NotNull ClassInfoVo ClassInfoVo, HttpServletRequest request){
+        try {
+            if(EmptyUtils.isNotEmpty(ClassInfoVo.getArrDates())){
+                //获取当前学员信息
+                User currUser = JSON.parseObject(redisAPI.get(request.getHeader("token")), User.class);
+                //获取整期课程信息
+                List classList = (List)JSONArray.toCollection(JSONArray.fromObject(ClassInfoVo.getArrDates()), Course.class);
+                //查询该数组中的课程是否都是未预约，如果是已预约，跳过
+                Iterator iterator = classList.iterator();
+                int flag = 0;
+                while (iterator.hasNext()){
+                    Course course =  (Course)iterator.next();
+                    boolean subscribe = subscribeService.getSubscribe(course.getCid(), currUser.getUid());
+                    if(!subscribe){
+                        continue;
+                    }else{
+                        Subscribe scribe = new Subscribe();
+                        scribe.setCourseid(course.getCid());
+                        scribe.setUcoachid(course.getCoachid());
+                        scribe.setUserid(currUser.getUid());
+                        Integer tag = subscribeService.subscribeClass(scribe, currUser);
+                        if(tag>0){
+                            flag++;
+                        }
+                    }
+                }
+                if(flag==0){
+                    DtoUtil.returnFail("该整期课程已结束，试试预约其他课程吧",ErrorCode.BIZ_INSERT_FILED);
+                }
+                return DtoUtil.returnSuccess();
+            }else{
+                return DtoUtil.returnFail("请刷新页面后重试",ErrorCode.BIZ_PARAMETER_ERROR);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return DtoUtil.returnFail("系统异常",ErrorCode.BIZ_UNKNOWN);
+        }
+    }
 
+    /**
+     * 批量取消预约操作
+     * @param ClassInfoVo
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "batchCancelSubscribeClass",method = RequestMethod.POST,produces = "application/json")
+    @ResponseBody
+    public Dto dobatchCancelSubscribeClass(@NotNull ClassInfoVo ClassInfoVo,HttpServletRequest request){
+        try {
+            if(EmptyUtils.isNotEmpty(ClassInfoVo.getArrDates())){
+                User currUser = JSON.parseObject(redisAPI.get(request.getHeader("token")), User.class);
+                //获取整期课程信息
+                List cancelClassList = (List)JSONArray.toCollection(JSONArray.fromObject(ClassInfoVo.getArrDates()), Course.class);
+                //查询该集合中的课程是否有已完成的状态（以打卡或未完成）
+                Iterator iterator = cancelClassList.iterator();
+                int flag = 0;
+                while (iterator.hasNext()){
+                    Course course =  (Course)iterator.next();
+                    Subscribe subscribe = subscribeService.getCancelClass(course.getCid(),currUser.getUid());
+                    if(subscribe!=null){
+                        if(subscribe.getStatus()!=1){
+                            continue;
+                        }else{
+                            int result = subscribeService.deleSubscribeInfo(course.getCid(), currUser.getUid());
+                            if(result>0){
+                                flag++;
+                            }
+                        }
+                    }else{
+                        continue;
+                    }
+                }
+                if(flag==0){
+                    return DtoUtil.returnFail("没有可以取消的课程哦",ErrorCode.BIZ_DELETE_FILED);
+                }
+                return DtoUtil.returnSuccess();
+            }
+            return DtoUtil.returnFail("请刷新页面后重试",ErrorCode.BIZ_PARAMETER_ERROR);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return DtoUtil.returnFail("系统异常",ErrorCode.BIZ_UNKNOWN);
+        }
+    }
 }

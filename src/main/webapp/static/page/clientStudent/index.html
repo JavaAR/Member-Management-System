@@ -42,32 +42,42 @@
                     </div>
                     <!--课程选择区-->
                     <div class="layui-show" style="width: auto;font-family: Arial;background-color: white;border-radius: 2em">
+
                         <!--日历显示区-->
                         <div class="grid-demo " style="font-size: 15px;color: #3a74d3;text-align: center;padding-top: 10px" id="selectDate"></div>
                         <!--课程级别显示区-->
                         <div class="layui-show" style="text-align: center;margin-top: 2%">
                             <ul>
-                                <li>初级&nbsp;&nbsp;<span class="layui-badge-dot " style="background-color: #ed8b22"></span></li>
+                                <li>低级&nbsp;&nbsp;<span class="layui-badge-dot " style="background-color: #ed8b22"></span></li>
                                 <li>中级&nbsp;&nbsp;<span class="layui-badge-dot " style="background-color: #1da5f3"></span></li>
                                 <li>高级&nbsp;&nbsp;<span class="layui-badge-dot " style="background-color: #a222e4"></span></li>
                             </ul>
                         </div>
+                        <from class="layui-form">
+                            <div class="layui-form-item layui-input-block">
+                                <label class="layui-form-label" style="font-family: Arial;font-size: 12px">批量操作</label>
+                                <div class="layui-input-block">
+                                    <input type="checkbox" name="show" lay-skin="switch" lay-text="是|否" id="isforbdden" lay-filter="isShow" value="false">
+                                </div>
+                            </div>
+                        </from>
+
                         <!--课程预约显示区-->
                         <table class="layui-table" lay-skin="nob" id="userInfoTable" lay-filter="test" style="table-layout: auto">
                             <colgroup>
                                 <col>
                                 <col>
                                 <col>
-                               <!-- <col>-->
                                 <col>
-                                <col width=20>
+                                <col>
+                                <col>
                             </colgroup>
                             <thead>
                             <tr>
                                 <th></th>
                                 <th>课程</th>
                                 <th>时间</th>
-                              <!--  <th>教练</th>-->
+                                <th>教练</th>
                                 <th>费用</th>
                                 <th>状态</th>
                             </tr>
@@ -95,15 +105,15 @@
 
                         <!--预约考勤显示区-->
                         <div class="layui-inline" style="width: 100%;height: 430px;background-color:white;margin-top: 5%;text-align: center;border-radius: 2em 2em 0 0 " >
-                                <div class="layui-inline" style="width: 100px;height:6px;text-align: center;margin-top: 5%;background-color: #3a74d3;border-radius: 2em"></div>
-                                <!--表格显示框-->
+                            <div class="layui-inline" style="width: 100px;height:6px;text-align: center;margin-top: 5%;background-color: #3a74d3;border-radius: 2em"></div>
+                            <!--表格显示框-->
                             <table class="layui-table" lay-skin="nob" lay-filter="test" style="table-layout: auto">
                                 <colgroup>
                                     <col>
                                     <col>
                                     <col width=59>
                                     <col>
-                                    <!--<col>-->
+                                    <col>
                                     <col>
                                 </colgroup>
                                 <thead>
@@ -112,11 +122,11 @@
                                     <th></th>
                                     <th>课程</th>
                                     <th>时间</th>
-                                   <!-- <th>教练</th>-->
+                                    <th>教练</th>
                                     <th>状态</th>
                                 </tr>
                                 </thead>
-                                <tbody  id="currUserclassContent" class="class_content" style="text-align: left" lay-skin="nob"></tbody>
+                                <tbody  id="currUserclassContent" class="class_content" style="text-align: center" lay-skin="nob"></tbody>
                             </table>
                         </div>
                     </div>

@@ -18,6 +18,7 @@ layui.use(['element', 'laydate', 'layer', 'form', 'table'], function () {
         success: function (res) {
             if (res.success == "true") {
                 userInfo = res.data;
+                layer.msg("欢迎您："+userInfo.username);
             } else if (res.success == "false") {
                 if (res.errorCode == "30002") {
                     layer.msg(res.msg + "，即将跳转到登录页面");
@@ -85,7 +86,7 @@ layui.use(['element', 'laydate', 'layer', 'form', 'table'], function () {
     //获取上个月开始至下个月结束所有日期
     var timeQuantumDate = getAll(getLastMonthStartDate, getNextMonthEndDate);
     //显示信息
-    layer.msg("本程序只显示" + (lastMonth + 1) + "月，" + (nowMonth + 1) + "月，" + (nextMonth + 1) + "月的课程,如有其他需求请联系深蓝探索");
+
     //转换项
     element.on('tab(demo)', function (data) {
         if (data.index == 1) {
@@ -137,39 +138,43 @@ layui.use(['element', 'laydate', 'layer', 'form', 'table'], function () {
             getAllClassInfo(getLastMonthStartDate, getNextMonthEndDate);//重新渲染日历
         }
     });
-
-
-//预约操作
-    /*function subscribeClass(UserInfo,ClassInfo) {
-     var startTime = ClassInfo.coursestarttime;
-        var date = new Date(startTime);
-        var sthours = date.getHours();
-        var stMill = date.getMinutes();
-        $.ajax({
-            url:getRootPath()+"/api/subscribeClass",
-            headers:{
-                'token':$.cookie('token')
-            },
-            type:"post",
-            data:{
-              "courseid":ClassInfo.cid,
-              "userid":UserInfo.uid,
-              "ucoachid":ClassInfo.coachid
-            },
-            success:function (res) {
-                if(res.success=="true"){
-                    /!*$("#laydateArae .layui-laydate-content td[lay-ymd=" + formatDate(startTime) + "]").css("background", "black");*!/
-                   /!* $("#laydateArae").change();*!/
-                    layer.open({
-                        title:"预约成功！",
-                        content:"请于"+ formatDate(startTime)+" "+[sthours,stMill].join(":")+"前到达"+ ClassInfo.addname,
-                    });
-                }else{
-                    layer.msg(res.msg);
-                }
-            }
-        })
-      }*/
+    //预约整期课程按钮
+    form.on("switch(isShow)",function (data) {
+        var x = data.elem.checked;
+        if(data.value=="false"){
+            layer.confirm("开启之后批量操作将开启，确认开启吗？",{
+                closeBtn:0,
+                btn: ['确认','取消'],
+            },function (index) {//按钮1的回调
+                layer.close(index);
+                data.elem.checked=x;
+                $("input[name='show']").attr("value","true");
+                isforbidden = "true";
+                form.render();
+            },function (index, layero) {//按钮2的回调
+                data.elem.checked = !x;
+                $("input[name='show']").attr("value","false");
+                isforbidden = "false";
+                form.render();
+            })
+        }else if(data.value=="true"){
+            layer.confirm("关闭之后批量操作将关闭，确认关闭吗？",{
+                closeBtn:0,
+                btn: ['确认','取消'],
+            },function (index) {//确认的回调
+                layer.close(index);
+                $("input[name='show']").attr("value","false");
+                isforbidden = "false";
+                form.render();
+            },function (index, layero) {//取消的回调
+                layer.close(index);
+                data.elem.checked=!x;
+                $("input[name='show']").attr("value","true");
+                isforbidden = "true";
+                form.render();
+            })
+        }
+    });
     //考勤页面选择框日历
     //初始化两个日历并规定时间范围
     //考勤开始日历选择
@@ -301,7 +306,7 @@ layui.use(['element', 'laydate', 'layer', 'form', 'table'], function () {
                 }
                 dataHtml += '<td>' + classes[i].coursename + '</td>'//课程名
                     + '<td>' + [sthours, stMill].join(':') + "-" + [enhours, enMill].join(':') + '</td>'
-                    /*+ '<td>' + classes[i].coachname + '</td>'*/
+                    + '<td>' + classes[i].coachname + '</td>'
                     + '<td>' + classes[i].coursemoney + '</td>';
                 if (flag) {
                     dataHtml += '<td> <button type="button" class="layui-btn layui-btn-radius layui-btn-warm subscribeClass" status=1 id=' + classes[i].cid + '>预约</button></td>'
@@ -340,7 +345,9 @@ layui.use(['element', 'laydate', 'layer', 'form', 'table'], function () {
         });
     }
 
-    //预约
+    /**
+     * 预约
+     */
     $("body").on("click", ".subscribeClass", function () {
         var cid = $(this).attr('id');
         var status = $(this).attr('status');
@@ -360,54 +367,215 @@ layui.use(['element', 'laydate', 'layer', 'form', 'table'], function () {
                 }
             }
         });
-        if (status == 1) {//如果当前用户未预约所选课程
-            if (userInfo.userlever >= classIn.courseclassify) {
-                layer.confirm("确定预约该课程吗？", {
+        //判断是否批量预约与取消与预约
+        var is = $("#isforbdden").val();
+        if(is=="true"){//开启批量预约与取消
+            if(status == 1){
+                if (userInfo.userlever >= classIn.courseclassify) {
+                    //根据当前这门课程选出同一批次的课程，所需要的参数为(课程名，开课日期对应的周数，开课时间，结束时间)
+                    //1.选出当前课程课程名称
+                    var classname = classIn.coursename;
+                    //2.选出当前课程开课日期对应的周数
+                    var week = getYearWeek(classIn.coursestarttime);
+                    //3.选出当前课程开始时间（小时，分钟）
+                    var startTime = new Date(classIn.coursestarttime);
+                    var sthours = startTime.getHours();
+                    var stMill = startTime.getMinutes();
+                    //4.选出当前课程结束时间（小时，课程）
+                    var endTime = new Date(classIn.courseendtime);
+                    var enhours = endTime.getHours();
+                    var enMill = endTime.getMinutes();
+                    //5.根据这一组数据判断classinfo数组中所有匹配的课程
+                    var screenClass = [];
+                    for(var i = 0;i<classInfo.length;i++){
+                        if(classInfo[i].coursename==classname){
+                            var allweek = getYearWeek(classInfo[i].coursestarttime)
+                            if(allweek==week){
+                                var allstartTime = new Date(classInfo[i].coursestarttime);
+                                var allhours = allstartTime.getHours();
+                                var alltMill = allstartTime.getMinutes();
+                                var allendTime = new Date(classInfo[i].courseendtime);
+                                var allenhours = allendTime.getHours();
+                                var allenMill = allendTime.getMinutes();
+                                if(allhours==sthours&&alltMill==stMill&&enhours==allenhours&&allenMill==enMill){
+                                    //6.如果开课时间减去当前时间小于24小时并且课程未结束则跳过该课程
+                                    var currTime = new Date();//获取当前时间
+                                    var classStartTime = classInfo[i].coursestarttime;
+                                    var mistiming = classStartTime - currTime.getTime();
+                                    if(classInfo[i].courseendtime > currTime.getTime() && mistiming >86400000){
+                                        screenClass.push(classInfo[i])
+                                    }else{
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    //7.提交操作
+                    layer.confirm("检测到您开启了批量预约，系统将为您预约该课程的整期课程，已结束或开课前24小时的课程将不能取消预约,确认预约吗？",{
+                        btn:['确认','取消'],
+                        yes:function (index, layero) {
+                            var index = layer.msg('操作中，请稍候',{icon: 16,time:false,shade:0.8});
+                            setTimeout(function(){
+                                $.ajax({
+                                    url:getRootPath()+"/api/batchsubscribeClass",
+                                    data:{
+                                        "arrDates": JSON.stringify(screenClass)
+                                    },
+                                    headers:{
+                                        token:$.cookie("token")
+                                    },
+                                    type:'post',
+                                    success:function (res) {
+                                        if(res.success=="true"){
+                                            layer.close(index);
+                                            layer.msg("预约成功，可在历史考勤页面查看");
+                                            for (var i = 0;i<screenClass.length;i++){
+                                                $("#"+screenClass[i].cid+"").html("已预约");
+                                                $("#"+screenClass[i].cid+"").attr("status","2");
+                                                $("#"+screenClass[i].cid+"").attr("class","layui-btn layui-btn-radius layui-btn-normal subscribeClass");
+                                            }
+                                        }else{
+                                            layer.msg(res.msg);
+                                        }
+                                    }
+                                })
+                            },2000);
+                        },
+                        btn2:function (index) {
+                            layer.close(index);
+                        }
+                    })
+                }else{
+                    layer.msg("您的体能可能不适应这门课程，快去看看其他课程吧");
+                }
+            }else if(status == 2){
+                //根据当前这门课程选出同一批次的课程，所需要的参数为(课程名，开课日期对应的周数，开课时间，结束时间)
+                //1.选出当前课程课程名称
+                var cancelClassName = classIn.coursename;
+                //2.选出当前课程开课日期对应的周数
+                var cancelWeek = getYearWeek(classIn.coursestarttime);
+                //3.选出当前课程开始时间（小时，分钟）
+                var cancelStartTime = new Date(classIn.coursestarttime);
+                var cancelStHours = cancelStartTime.getHours();
+                var cancelStMill = cancelStartTime.getMinutes();
+                //4.选出当前课程结束时间（小时，课程）
+                var cancelEndTime = new Date(classIn.courseendtime);
+                var cancelEnHours = cancelEndTime.getHours();
+                var cancelEnMill = cancelEndTime.getMinutes();
+                //5.根据这一组数据判断classinfo数组中所有匹配的课程
+                var cancelScreenClass = [];
+                for(var i = 0;i<classInfo.length;i++){
+                    if(classInfo[i].coursename==cancelClassName){
+                        var cancelAllWeek = getYearWeek(classInfo[i].coursestarttime)
+                        if(cancelAllWeek==cancelWeek){
+                            var cancelAllStartTime = new Date(classInfo[i].coursestarttime);
+                            var cancelAllHours = cancelAllStartTime.getHours();
+                            var cancelAllMill = cancelAllStartTime.getMinutes();
+                            var cancelAllEndTime = new Date(classInfo[i].courseendtime);
+                            var cancelAllEnHours = cancelAllEndTime.getHours();
+                            var cancelAllEnMill = cancelAllEndTime.getMinutes();
+                            if(cancelAllHours==cancelStHours&&cancelAllMill==cancelStMill&&cancelEnHours==cancelAllEnHours&&cancelEnMill==cancelAllEnMill){
+                                //6.如果开课时间减去当前时间小于24小时并且课程未结束则跳过该课程
+                                var cancelCurrTime = new Date();//获取当前时间
+                                var cancelClassStartTime = classInfo[i].coursestarttime;
+                                var cancelClassEndTime = classInfo[i].courseendtime;
+                                var cancelMisTiming = cancelClassStartTime - cancelCurrTime.getTime();
+                                if(cancelClassEndTime>cancelCurrTime&&cancelMisTiming > 3600000){
+                                    cancelScreenClass.push(classInfo[i]);
+                                }else{
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                }
+                layer.confirm("检测到您开启了批量取消预约，系统将为您取消预约该课程的整期课程，已结束或开课前1小时的课程将不能取消预约,确认操作吗？",{
+                    btn:['确认','取消'],
+                    yes:function (index, layero) {
+                        var index = layer.msg('操作中，请稍候',{icon: 16,time:false,shade:0.8});
+                        setTimeout(function(){
+                            $.ajax({
+                                url:getRootPath()+"/api/batchCancelSubscribeClass",
+                                data:{
+                                    "arrDates": JSON.stringify(cancelScreenClass)
+                                },
+                                headers:{
+                                    token:$.cookie("token")
+                                },
+                                type:'post',
+                                success:function (res) {
+                                    if(res.success=="true"){
+                                        layer.close(index);
+                                        layer.msg("取消预约成功,可在历史考勤页面查看");
+                                        for (var j = 0;j<cancelScreenClass.length;j++){
+                                            $("#"+cancelScreenClass[j].cid+"").html("预约");
+                                            $("#"+cancelScreenClass[j].cid+"").attr("status","1");
+                                            $("#"+cancelScreenClass[j].cid+"").attr("class","layui-btn layui-btn-radius layui-btn-warm subscribeClass");
+                                        }
+                                    }else{
+                                        layer.msg(res.msg);
+                                    }
+                                }
+                            })
+                        },2000);
+                    },
+                    btn2:function (index) {
+                        layer.close(index);
+                    }
+                })
+            }
+
+        }else if(is=="false"){//没有开启批量预约与取消
+            if (status == 1) {//如果当前用户未预约所选课程
+                if (userInfo.userlever >= classIn.courseclassify) {
+                    layer.confirm("确定预约该课程吗？", {
+                        btn: ['别废话了', '我在想想'],
+                        yes: function (index, layero) {
+                            var classStartTime = classIn.coursestarttime;//获取课程开始时间
+                            var classendtTime = classIn.courseendtime;
+                            var currTime = new Date();//获取当前时间
+                            var mistiming = classStartTime - currTime.getTime();
+                            if(classendtTime < currTime.getTime()){
+                                layer.msg("该课程已结束");
+                                return;
+                            }
+                            if (mistiming > 86400000) {
+                                subscribeClass(userInfo,classIn);
+                            } else if(mistiming < 86400000){
+                                layer.msg("对不起，开课前24小时之内不能约课");
+                            }
+                        },
+                        btn2: function (index) {
+                            layer.close(index);
+                        }
+                    });
+                } else {
+                    layer.msg("您的体能可能不适应这门课程，快去看看其他课程吧");
+                }
+            } else if (status == 2) {//如果当前用户已预约所选课程
+                layer.confirm("确定取消预约该课程吗？", {
                     btn: ['别废话了', '我在想想'],
                     yes: function (index, layero) {
                         var classStartTime = classIn.coursestarttime;//获取课程开始时间
-                        var classendtTime = classIn.courseendtime;
                         var currTime = new Date();//获取当前时间
+                        var classendtTime = classIn.courseendtime;
                         var mistiming = classStartTime - currTime.getTime();
                         if(classendtTime < currTime.getTime()){
                             layer.msg("该课程已结束");
                             return;
                         }
-                        if (mistiming > 86400000) {
-                            subscribeClass(userInfo,classIn);
-                        } else if(mistiming < 86400000){
-                            layer.msg("对不起，开课前24小时之内不能约课");
+                        if (mistiming > 3600000) {
+                            cancelsubscribeClass(userInfo,classIn);
+                        } else {
+                            layer.msg("对不起，开课1小时之内不能取消约课");
                         }
                     },
                     btn2: function (index) {
                         layer.close(index);
                     }
                 });
-            } else {
-                layer.msg("您的体能可能不适应这门课程，快去看看其他课程吧");
             }
-        } else if (status == 2) {//如果当前用户已预约所选课程
-            layer.confirm("确定取消预约该课程吗？", {
-                btn: ['别废话了', '我在想想'],
-                yes: function (index, layero) {
-                    var classStartTime = classIn.coursestarttime;//获取课程开始时间
-                    var currTime = new Date();//获取当前时间
-                    var classendtTime = classIn.courseendtime;
-                    var mistiming = classStartTime - currTime.getTime();
-                    if(classendtTime < currTime.getTime()){
-                        layer.msg("该课程已结束");
-                        return;
-                    }
-                    if (mistiming > 3600000) {
-                        cancelsubscribeClass(userInfo,classIn);
-                    } else {
-                        layer.msg("对不起，开课1小时之内不能取消约课");
-                    }
-                },
-                btn2: function (index) {
-                    layer.close(index);
-                }
-            });
         }
     });
     /**
@@ -503,10 +671,6 @@ function getAllClassInfo(startDate, endDate) {
         type: 'post',
         headers: {
             'token': $.cookie('token')
-        },
-        data: {
-            "startDate": startDate,
-            "endDate": endDate
         },
         success: function (res) {
             if (res.success == "true") {//查询之成功之后的操作
@@ -604,23 +768,23 @@ function renderercurrUserClass(that) {
             switch (that[i].status) {
                 case 1: {
                     dataHtml +='<td style="color:#ed8b22">' + [stMonth, stDate].join('.') + '</td>'
-                           + '<td><span class="layui-badge-dot" style="background-color: #ed8b22"></span></td>';
+                        + '<td><span class="layui-badge-dot" style="background-color: #ed8b22"></span></td>';
                     break;
                 }
                 case 2: {
                     dataHtml +='<td style="color:#3a74d3">' + [stMonth, stDate].join('.') + '</td>'
-                         +'<td><span class="layui-badge-dot" style="background-color:  #3a74d3"></span></td>';
+                        +'<td><span class="layui-badge-dot" style="background-color:  #3a74d3"></span></td>';
                     break;
                 }
                 case 3: {
                     dataHtml += '<td style="color:#4E5465">' + [stMonth, stDate].join('.') + '</td>'
-                           +'<td><span class="layui-badge-dot" style="background-color: #4E5465"></span></td>';
+                        +'<td><span class="layui-badge-dot" style="background-color: #4E5465"></span></td>';
                     break;
                 }
             }
             dataHtml += '<td>' + that[i].coursename + '</td>'//课程名
                 + '<td>' + [sthours, starMill].join(':') + "-" + [endHours, endMill].join(':') + '</td>'//时间
-               /* + '<td>' + that[i].coachname + '</td>'*/
+                + '<td>' + that[i].coachname + '</td>'
             switch (that[i].status) {
                 case 1: {
                     dataHtml += '<td style="color: #ed8b22">已预约</td>';

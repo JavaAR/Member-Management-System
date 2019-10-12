@@ -119,6 +119,14 @@ public class SubscribeServiceImpl implements SubscribeService {
     }
 
     @Override
+    public Subscribe getCancelClass(Integer cid, Integer uid) throws Exception {
+        HashMap<Object, Object> paramMap = new HashMap<>();
+        paramMap.put("courseid",cid);
+        paramMap.put("userid",uid);
+        return subscribeMapper.getSbuscribeByMap(paramMap);
+    }
+
+    @Override
     public List<Subscribe> getCurrClassSubscribeInfo(HashMap<Object, Object> paramMap) {
         return subscribeMapper.getAllSubscribe(paramMap);
     }
