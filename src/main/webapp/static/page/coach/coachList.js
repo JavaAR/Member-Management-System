@@ -95,7 +95,7 @@ layui.config({
     //修改教练信息
     $("body").on("click", ".coach_edit", function () {  //编辑
         var id = $(this).data('id');
-        location.href = "checkWorkUpdate.html?uid=" + id;
+        location.href = "coachInfoUpdate.html?uid=" + id;
     });
     //查看学员信息
     $("body").on("click", ".coach_collect", function () {  //查看.
